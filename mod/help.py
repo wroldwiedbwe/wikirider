@@ -47,14 +47,16 @@ def run(url,depth,i):
 		print(clr.Style.BRIGHT + clr.Fore.YELLOW + ("-" * (i + 1)) + PAGE_TITLE + " - " + clr.Fore.GREEN + url  + clr.Style.RESET_ALL)
 		for a in HTML.find_all('a',href=HREFREGEX):
 			if a.text and validUrl(a['href']) and a['href'] not in url:
-				POSSIBLE_URLS.append(a['href'])
-		SEC_URL = rchoice(POSSIBLE_URLS)
-		while SEC_URL == url:
-			SEC_URL = rchoice(POSSIBLE_URLS)
-		URL = BASE_URL + SEC_URL
+				for doneURL in DONE:
+					if a['href'] not in doneURL and DONE != list():
+						POSSIBLE_URLS.append(a['href'])
 		if POSSIBLE_URLS == list():
 			run("",depth,depth)
 		else:
+			SEC_URL = rchoice(POSSIBLE_URLS)
+			while SEC_URL == url:
+				SEC_URL = rchoice(POSSIBLE_URLS)
+			URL = BASE_URL + SEC_URL
 			run(URL,depth,i+1)
 		
 ########### MAIN #############
