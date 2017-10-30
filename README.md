@@ -1,6 +1,7 @@
 # WikiRider
 ##
-Do a Wikirun directly from your terminal ( assuming you use Linux or Mac )!
+Do a Wikirun directly from your terminal ( assuming you use Linux or Mac )!<br />
+[![Travis](https://img.shields.io/travis/sadboyzvone/8080py.svg)]()
 ## Install
 Since I use Debian, I can only provide instructions for Debian-based distros.
 ```bash
