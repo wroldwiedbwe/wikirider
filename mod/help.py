@@ -28,7 +28,7 @@ def printBanner():
 	print("\t-WikiRider" + clr.Style.RESET_ALL)
 ########### PRINT HELP ############
 def printHelp():
-	print(clr.Style.BRIGHT + clr.Fore.WHITE + "Usage: " + clr.Fore.YELLOW + "./wikirun.py <starting url> <depth (default: 5)>" + clr.Style.RESET_ALL)
+	print(clr.Style.BRIGHT + clr.Fore.WHITE + "Usage: " + clr.Fore.YELLOW + "./wikirun.py <starting url> <depth>" + clr.Style.RESET_ALL)
 ########### VALIDATOR ##########
 def validUrl(url):
 	if "Main_Page" in url:
