@@ -1,0 +1,10 @@
+language: python
+python:
+  - "2.6"
+  - "3.6"
+  - "nightly"
+  - "pypy"
+  - "pypy3"
+install:
+  - pip install -r requirements.txt
+script: python wikirider.py "https://en.wikipedia.org/wiki/Python_(programming_language)" 5

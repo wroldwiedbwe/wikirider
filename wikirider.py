@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import sys
 from mod.help import *
 ######### THIS IS IT ########
