@@ -15,6 +15,8 @@ HREFREGEX = re.compile(r"^/wiki/.*")
 BASE_URL = "" # yet...
 DONE = list() # yet... will be used later
 HTML = None # yet...
+COLORMAP = {0:clr.Fore.MAGENTA,1:clr.Fore.CYAN,2:clr.Fore.BLUE,3:clr.Fore.GREEN,4:clr.Fore.YELLOW,5:clr.Fore.RED}
+currColorNum = 0;
 ##############################
 ########### PRINT BANNER ##########
 def printBanner():
@@ -34,17 +36,22 @@ def validUrl(url):
 	if "Main_Page" in url:
 		return False
 	return WIKIREGEX.match(url) != None or WIKIPAGEREGEX.match(url) != None
+
 def run(url,depth,i):
 	global BASE_URL
 	global DONE
+	global COLORMAP;
+	global currColorNum;
 	if i > depth:
-		print(clr.Style.BRIGHT + "You rode the wiki!" + clr.Style.RESET_ALL)
+		print(clr.Style.BRIGHT + clr.Back.WHITE + clr.Fore.RED + "You rode the wiki!" + clr.Style.RESET_ALL)
 	else:
 		DONE.append(url)
 		POSSIBLE_URLS = list()
 		HTML = bs(req.get(url).content,'lxml')
 		PAGE_TITLE = HTML.find('h1',id="firstHeading").text
-		print(clr.Style.BRIGHT + clr.Fore.YELLOW + ("-" * (i + 1)) + PAGE_TITLE + " - " + clr.Fore.GREEN + url  + clr.Style.RESET_ALL)
+		nextColor = COLORMAP[currColorNum];
+		currColorNum = (currColorNum + 1)%6;
+		print(clr.Style.BRIGHT + clr.Fore.WHITE + ("-" * (i + 1)) + PAGE_TITLE + " - " + nextColor + url  + clr.Style.RESET_ALL)
 		for a in HTML.find_all('a',href=HREFREGEX):
 			if a.text and validUrl(a['href']) and a['href'] not in url:
 				for doneURL in DONE:
@@ -73,7 +80,7 @@ def runTheWiki(args):
 			except ValueError:
 				print(clr.Style.BRIGHT + clr.Fore.RED + "\nPlease specify depth as a number..." + clr.Style.RESET_ALL)
 				sys.exit(-1)
-			print(clr.Style.BRIGHT + "\nStarting the track!" + clr.Style.RESET_ALL)
+			print(clr.Style.BRIGHT + clr.Back.WHITE + clr.Fore.RED + "\nStarting the track!" + clr.Style.RESET_ALL)
 			run(START_URL,DEPTH,0)
 		else:
 			print(clr.Style.BRIGHT + clr.Fore.RED + "\nNot a valid Wiki URL! (must start with https://)" + clr.Style.RESET_ALL)
