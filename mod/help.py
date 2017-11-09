@@ -15,7 +15,7 @@ HREFREGEX = re.compile(r"^/wiki/.*")
 BASE_URL = "" # yet...
 DONE = list() # yet... will be used later
 HTML = None # yet...
-COLORMAP = {0:clr.Fore.MAGENTA,1:clr.Fore.CYAN,2:clr.Fore.BLUE,3:clr.Fore.GREEN,4:clr.Fore.YELLOW,5:clr.Fore.RED}
+COLORMAP = {5:clr.Fore.MAGENTA,4:clr.Fore.CYAN,3:clr.Fore.BLUE,2:clr.Fore.GREEN,1:clr.Fore.YELLOW,0:clr.Fore.RED}
 currColorNum = 0;
 ##############################
 ########### PRINT BANNER ##########
