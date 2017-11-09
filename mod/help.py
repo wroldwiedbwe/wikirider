@@ -43,7 +43,7 @@ def run(url,depth,i):
 	global COLORMAP;
 	global currColorNum;
 	if i > depth:
-		print(clr.Style.BRIGHT + clr.Back.WHITE + clr.Fore.RED + "You rode the wiki!" + clr.Style.RESET_ALL)
+		print(clr.Style.BRIGHT + clr.Back.WHITE + clr.Fore.BLACK + "You rode the wiki!" + clr.Style.RESET_ALL)
 	else:
 		DONE.append(url)
 		POSSIBLE_URLS = list()
@@ -80,7 +80,7 @@ def runTheWiki(args):
 			except ValueError:
 				print(clr.Style.BRIGHT + clr.Fore.RED + "\nPlease specify depth as a number..." + clr.Style.RESET_ALL)
 				sys.exit(-1)
-			print(clr.Style.BRIGHT + clr.Back.WHITE + clr.Fore.RED + "\nStarting the track!" + clr.Style.RESET_ALL)
+			print(clr.Style.BRIGHT + clr.Back.WHITE + clr.Fore.BLACK + "\nStarting the track!" + clr.Style.RESET_ALL)
 			run(START_URL,DEPTH,0)
 		else:
 			print(clr.Style.BRIGHT + clr.Fore.RED + "\nNot a valid Wiki URL! (must start with https://)" + clr.Style.RESET_ALL)
