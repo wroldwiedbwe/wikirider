@@ -24,7 +24,7 @@ class WikiRider(object):
 			self.Depth = int(Depth)
 			self.NextUrl = BaseUrl
 			self.BaseURL = BaseUrl.split('/wiki/')[0]
-			print(Style.BRIGHT + Back.WHITE + Fore.BLACK + "\nStarting the track!" + Style.RESET_ALL)
+			print("\n" + Style.BRIGHT + Back.WHITE + Fore.BLACK + "Starting the track!" + Style.RESET_ALL)
 			self.run()
 		else:
 			WikiRider.printError()
