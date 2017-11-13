@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import print_function,absolute_import
 from colorama import Fore,Back,Style
 import requests as req
@@ -35,11 +36,13 @@ class WikiRider(object):
 		else:
 			self.VisitedUrls.append(self.NextUrl)
 			possibleUrls = list()
+			#try:
 			HtmlSource = bs(req.get(self.NextUrl).content,'lxml')
 			PageTitle = HtmlSource.find('h1',id="firstHeading").text
 			nextColor = self.ColorMap[self.currColorNum]
+			dashCounter = self.DepthCounter + 1 if self.DepthCounter + 1 < 25 else 25
 			self.currColorNum = self.currColorNum + 1 if self.currColorNum < len(self.ColorMap) - 1 else 0
-			print(Style.BRIGHT + Fore.WHITE + ("-" * (self.DepthCounter + 1)) + PageTitle + " - " + nextColor + self.NextUrl + Style.RESET_ALL)
+			print((Style.BRIGHT + Fore.WHITE + ("-" * (dashCounter)) + PageTitle + " - " + nextColor + self.NextUrl + Style.RESET_ALL).encode('utf-8'))
 			for a in HtmlSource.find_all('a',href=self.hrefRegex):
 				if a.text and WikiRider.validUrl(a['href']) and a['href'] not in self.NextUrl:
 					for VisitedUrl in self.VisitedUrls:
@@ -55,6 +58,9 @@ class WikiRider(object):
 				self.DepthCounter+=1
 				self.NextUrl = self.BaseURL + nextURLTail
 				self.run()
+			#except:
+			#	self.DepthCounter = self.Depth
+			#	self.run()
 	######## CHECK IF VALID INT ########
 	@staticmethod
 	def validInt(num):
