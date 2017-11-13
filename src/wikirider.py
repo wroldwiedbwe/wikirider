@@ -82,7 +82,7 @@ class WikiRider(object):
 	########### PRINT ERROR ###########
 	@staticmethod
 	def printError():
-		print(Style.BRIGHT + Fore.RED + "\nDepth must be a number!\nStarting URL must be a valid WikiPedia URL (you might me missing https:// and Main_Page isn't allowed) !" + Style.RESET_ALL)
+		print(Style.BRIGHT + Fore.RED + "\nDepth must be a number!\nStarting URL must be a valid WikiPedia URL!\n(You might me missing https:// and special pages aren't allowed)!" + Style.RESET_ALL)
 	############ CHECK URL ############
 	@staticmethod
 	def validUrl(url):
