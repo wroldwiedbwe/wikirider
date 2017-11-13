@@ -18,7 +18,7 @@ source bin/activate
 # Install requirements
 pip install -r requirements.txt
 # Run
-python wikirider.py
+python main.py
 ```
 ## FAQ:
 * What is a Wikirun?
