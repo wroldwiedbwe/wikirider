@@ -42,7 +42,7 @@ class WikiRider(object):
 			nextColor = self.ColorMap[self.currColorNum]
 			dashCounter = self.DepthCounter + 1 if self.DepthCounter + 1 < 25 else 25
 			self.currColorNum = self.currColorNum + 1 if self.currColorNum < len(self.ColorMap) - 1 else 0
-			print((Style.BRIGHT + Fore.WHITE + ("-" * (dashCounter)) + PageTitle + " - " + nextColor + self.NextUrl + Style.RESET_ALL).encode('utf-8'))
+			print((Style.BRIGHT + Fore.WHITE + ("-" * (dashCounter)) + PageTitle + " - " + nextColor + self.NextUrl + Style.RESET_ALL))
 			for a in HtmlSource.find_all('a',href=self.hrefRegex):
 				if a.text and WikiRider.validUrl(a['href']) and a['href'] not in self.NextUrl:
 					for VisitedUrl in self.VisitedUrls:
