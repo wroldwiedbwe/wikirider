@@ -36,8 +36,11 @@ class WikiRider(object):
 		else:
 			self.VisitedUrls.append(self.NextUrl)
 			possibleUrls = list()
-			#try:
-			HtmlSource = bs(req.get(self.NextUrl).content,'lxml')
+			try:
+				HtmlSource = bs(req.get(self.NextUrl).content,'lxml')
+			except:
+				print(Style.BRIGHT + Fore.RED + 'Cannot connect to WikiPedia.' + Style.RESET_ALL)
+				return			
 			PageTitle = HtmlSource.find('h1',id="firstHeading").text
 			nextColor = self.ColorMap[self.currColorNum]
 			dashCounter = self.DepthCounter + 1 if self.DepthCounter + 1 < 25 else 25
