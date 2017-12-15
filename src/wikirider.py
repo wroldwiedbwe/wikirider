@@ -1,81 +1,108 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function,absolute_import
-from colorama import Fore,Back,Style
+from __future__ import print_function, absolute_import
+from colorama import Fore, Back, Style
 import requests as req
 import re
-import sys
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as Bs
 from random import choice as rchoice
 
+
 class WikiRider(object):
-    ############################# VARIABLES #############################
-    WikiRegex = re.compile(r"https://.*\.wikipedia\.org/wiki/.[^:#]{3,}$")
-    WikiPageRegex = re.compile(r"^/wiki/.[^:#]{1,}$")
-    hrefRegex = re.compile(r"^/wiki/.*")
-    ColorMap = {
-        5:Fore.MAGENTA, 4:Fore.CYAN, 3:Fore.BLUE,
-        2:Fore.GREEN, 1:Fore.YELLOW, 0:Fore.RED
-        }
-    ########### CONSTRUCTOR ###########
-    def __init__(self,BaseUrl,Depth):
-        if WikiRider.validInt(Depth) and WikiRider.validUrl(BaseUrl):
-            self.Depth = int(Depth)
-            self.NextUrl = BaseUrl
-            self.BaseURL = BaseUrl.split('/wiki/')[0]
-            self.currColorNum = 0
-            self.VisitedUrls = []
-            self.DepthCounter = 0
-            print("\n" + Style.BRIGHT + Back.WHITE + Fore.BLACK + "Starting the track!" + Style.RESET_ALL)
+
+    # CONSTANTS
+
+    WIKI_REGEX = re.compile(r"https://.*\.wikipedia\.org/wiki/.[^:#]{3,}$")
+    WIKI_PAGE_REGEX = re.compile(r"^/wiki/.[^:#]+$")
+    HREF_REGEX = re.compile(r"^/wiki/.*")
+    COLOR_MAP = {
+        5: Fore.MAGENTA,
+        4: Fore.CYAN,
+        3: Fore.BLUE,
+        2: Fore.GREEN,
+        1: Fore.YELLOW,
+        0: Fore.RED
+    }
+
+    # CONSTRUCTOR
+
+    def __init__(self, base_url, depth):
+        if WikiRider.valid_int(depth) and WikiRider.valid_url(base_url):
+            self.depth = int(depth)
+            self.next_url = base_url
+            self.base_url = base_url.split('/wiki/')[0]
+            self.curr_color_num = 0
+            self.visited_urls = []
+            self.depth_counter = 0
+            print("\n" + Style.BRIGHT + Back.WHITE + Fore.BLACK +
+                  "Starting the track!" + Style.RESET_ALL)
             self.run()
         else:
-            WikiRider.printError()
+            WikiRider.print_error()
+
     def run(self):
-        if self.DepthCounter >= self.Depth:
-            print(Style.BRIGHT + Back.WHITE + Fore.BLACK + "You rode the wiki!" + Style.RESET_ALL)
+        if self.depth_counter >= self.depth:
+            print(Style.BRIGHT + Back.WHITE + Fore.BLACK +
+                  "You rode the wiki!" + Style.RESET_ALL)
             return
         else:
-            self.VisitedUrls.append(self.NextUrl)
-            possibleUrls = list()
+            self.visited_urls.append(self.next_url)
+
+            # Scrapes html elements
             try:
-                HtmlSource = bs(req.get(self.NextUrl).content,'lxml')
-            except:
-                print(Style.BRIGHT + Fore.RED + 'Cannot connect to WikiPedia.' + Style.RESET_ALL)
-                return
-            PageTitle = HtmlSource.find('h1',id="firstHeading").text
-            nextColor = self.ColorMap[self.currColorNum]
-            dashCounter = self.DepthCounter + 1 if self.DepthCounter + 1 < 25 else 25
-            self.currColorNum = self.currColorNum + 1 if self.currColorNum < len(self.ColorMap) - 1 else 0
-            print((Style.BRIGHT + Fore.WHITE + ("-" * (dashCounter)) + PageTitle + " - " + nextColor + self.NextUrl + Style.RESET_ALL))
-            for a in HtmlSource.find_all('a',href=self.hrefRegex):
-                if a.text and WikiRider.validUrl(a['href']) and a['href'] not in self.NextUrl:
-                    for VisitedUrl in self.VisitedUrls:
-                        if a['href'] not in VisitedUrl: #or self.VisitedUrls == list(): ..not needed
-                            possibleUrls.append(a['href'])
-            if possibleUrls == list():
-                self.DepthCounter = self.Depth
+                html_source = Bs(req.get(self.next_url).content, 'lxml')
+            except req.RequestException:
+                print(Style.BRIGHT + Fore.RED +
+                      'Cannot connect to WikiPedia.' + Style.RESET_ALL)
+                return None
+            page_title = html_source.find('h1', id="firstHeading").text
+
+            # Prints current page
+            next_color = self.COLOR_MAP[self.curr_color_num]
+            dash_counter = self.depth_counter + 1 \
+                if self.depth_counter + 1 < 25 else 25
+            self.curr_color_num = self.curr_color_num + 1 \
+                if self.curr_color_num < len(self.COLOR_MAP) - 1 else 0
+            print(Style.BRIGHT + Fore.WHITE + ("-" * dash_counter)
+                  + page_title + " - " + next_color + self.next_url
+                  + Style.RESET_ALL)
+
+            # Looks for possible urls
+            possible_urls = []
+            for a in html_source.find_all('a', href=self.HREF_REGEX):
+                if (a.text and WikiRider.valid_url(a['href']) and a['href']
+                        not in self.next_url):
+                    for visited_url in self.visited_urls:
+                        if a['href'] not in visited_url:
+                            possible_urls.append(a['href'])
+
+            # Travels to next random url
+            if not possible_urls:
+                self.depth_counter = self.depth
                 self.run()
             else:
-                nextURLTail = rchoice(possibleUrls)
-                while nextURLTail in self.NextUrl:
-                    nextURLTail = rchoice(possibleUrls)
-                self.DepthCounter+=1
-                self.NextUrl = self.BaseURL + nextURLTail
+                next_url_tail = rchoice(possible_urls)
+                while next_url_tail in self.next_url:
+                    next_url_tail = rchoice(possible_urls)
+                self.depth_counter += 1
+                self.next_url = self.base_url + next_url_tail
                 self.run()
-            #except:
+            # except:
             #    self.DepthCounter = self.Depth
             #    self.run()
-    ######## CHECK IF VALID INT ########
+
+    # CHECK IF VALID INT
     @staticmethod
-    def validInt(num):
+    def valid_int(num):
         try:
             int(num)
-        except:
+        except ValueError:
             return False
         finally:
             return True
-    ########### PRINT BANNER ###########
+
+    # PRINT BANNER
     @staticmethod
-    def printBanner():
+    def print_banner():
         print(Style.BRIGHT + Fore.WHITE)
         print("        (_\\")
         print("       / \\")
@@ -84,17 +111,25 @@ class WikiRider(object):
         print("   /____//__/__\\")
         print(" @=`(0)     (0) ")
         print("\t-WikiRider" + Style.RESET_ALL)
-    ########### PRINT HELP ############
+
+    # PRINT HELP
     @staticmethod
-    def printHelp():
-        print(Style.BRIGHT + Fore.WHITE + "\nUsage: " + Fore.YELLOW + "./wikirun.py <starting url> <depth>" + Style.RESET_ALL)
-    ########### PRINT ERROR ###########
+    def print_help():
+        print(Style.BRIGHT + Fore.WHITE + "\nUsage: " + Fore.YELLOW +
+              "./wikirun.py <starting url> <depth>" + Style.RESET_ALL)
+
+    # PRINT ERROR
     @staticmethod
-    def printError():
-        print(Style.BRIGHT + Fore.RED + "\nDepth must be a number!\nStarting URL must be a valid WikiPedia URL!\n(You might me missing https:// and special pages aren't allowed)!" + Style.RESET_ALL)
-    ############ CHECK URL ############
+    def print_error():
+        print(Style.BRIGHT + Fore.RED +
+              "\nDepth must be a number!\nStarting URL must be a valid "
+              "WikiPedia URL!\n(You might me missing https:// and special "
+              "pages aren't allowed)!" + Style.RESET_ALL)
+
+    # CHECK URL
     @staticmethod
-    def validUrl(url):
+    def valid_url(url):
         if "Main_Page" in url:
             return False
-        return WikiRider.WikiRegex.match(url) != None or WikiRider.WikiPageRegex.match(url) != None
+        return (WikiRider.WIKI_REGEX.match(url) is not None or
+                WikiRider.WIKI_PAGE_REGEX.match(url) is not None)
