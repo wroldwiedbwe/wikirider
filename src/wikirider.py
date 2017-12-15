@@ -32,7 +32,9 @@ class WikiRider(object):
             self.base_url = base_url.split('/wiki/')[0]
             self.curr_color_num = 0
             self.visited_urls = []
+            self.possible_urls = []
             self.depth_counter = 0
+            self.html_source = None
             print("\n" + Style.BRIGHT + Back.WHITE + Fore.BLACK +
                   "Starting the track!" + Style.RESET_ALL)
             self.run()
@@ -47,48 +49,53 @@ class WikiRider(object):
         else:
             self.visited_urls.append(self.next_url)
 
-            # Scrapes html elements
-            try:
-                html_source = Bs(req.get(self.next_url).content, 'lxml')
-            except req.RequestException:
-                print(Style.BRIGHT + Fore.RED +
-                      'Cannot connect to WikiPedia.' + Style.RESET_ALL)
-                return None
-            page_title = html_source.find('h1', id="firstHeading").text
+            self.scrape_html_source()
+            self.print_current_page()
+            self.search_urls()
+            self.set_destination()
+            self.run()
 
-            # Prints current page
-            next_color = self.COLOR_MAP[self.curr_color_num]
-            dash_counter = self.depth_counter + 1 \
-                if self.depth_counter + 1 < 25 else 25
-            self.curr_color_num = self.curr_color_num + 1 \
-                if self.curr_color_num < len(self.COLOR_MAP) - 1 else 0
-            print(Style.BRIGHT + Fore.WHITE + ("-" * dash_counter)
-                  + page_title + " - " + next_color + self.next_url
-                  + Style.RESET_ALL)
+    def scrape_html_source(self):
+        # Scrapes html soup
+        try:
+            self.html_source = Bs(req.get(self.next_url).content, 'lxml')
+        except req.RequestException:
+            print(Style.BRIGHT + Fore.RED +
+                  'Cannot connect to WikiPedia.' + Style.RESET_ALL)
+            return None
 
-            # Looks for possible urls
-            possible_urls = []
-            for a in html_source.find_all('a', href=self.HREF_REGEX):
-                if (a.text and WikiRider.valid_url(a['href']) and a['href']
-                        not in self.next_url):
-                    for visited_url in self.visited_urls:
-                        if a['href'] not in visited_url:
-                            possible_urls.append(a['href'])
+    def print_current_page(self):
+        # Prints current page
+        page_title = self.html_source.find('h1', id="firstHeading").text
+        next_color = self.COLOR_MAP[self.curr_color_num]
+        dash_counter = self.depth_counter + 1 \
+            if self.depth_counter + 1 < 25 else 25
+        self.curr_color_num = self.curr_color_num + 1 \
+            if self.curr_color_num < len(self.COLOR_MAP) - 1 else 0
+        print(Style.BRIGHT + Fore.WHITE + ("-" * dash_counter)
+              + page_title + " - " + next_color + self.next_url
+              + Style.RESET_ALL)
 
-            # Travels to next random url
-            if not possible_urls:
-                self.depth_counter = self.depth
-                self.run()
-            else:
-                next_url_tail = rchoice(possible_urls)
-                while next_url_tail in self.next_url:
-                    next_url_tail = rchoice(possible_urls)
-                self.depth_counter += 1
-                self.next_url = self.base_url + next_url_tail
-                self.run()
-            # except:
-            #    self.DepthCounter = self.Depth
-            #    self.run()
+    def search_urls(self):
+        # Looks for possible urls
+        self.possible_urls = []
+        for a in self.html_source.find_all('a', href=self.HREF_REGEX):
+            if (a.text and WikiRider.valid_url(a['href']) and a['href']
+                    not in self.next_url):
+                for visited_url in self.visited_urls:
+                    if a['href'] not in visited_url:
+                        self.possible_urls.append(a['href'])
+
+    def set_destination(self):
+        # Sets the next url to travel
+        if not self.possible_urls:
+            self.depth_counter = self.depth
+        else:
+            next_url_tail = rchoice(self.possible_urls)
+            while next_url_tail in self.next_url:
+                next_url_tail = rchoice(self.possible_urls)
+            self.depth_counter += 1
+            self.next_url = self.base_url + next_url_tail
 
     # CHECK IF VALID INT
     @staticmethod
