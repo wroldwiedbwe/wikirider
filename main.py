@@ -10,3 +10,5 @@ if __name__ == "__main__":
         printer.print_help()
     else:
         rider = WikiRider(args[1], args[2])
+        printer.print_start()
+        rider.run()

@@ -28,8 +28,6 @@ class WikiRider(object):
             self.possible_urls = []
             self.html_source = None
             self.printer = RidePrinter()
-            self.printer.print_start()
-            self.run()
         else:
             RidePrinter.print_invalid_input_error()
 
