@@ -104,7 +104,7 @@ class WikiRider(object):
             int(num)
         except ValueError:
             return False
-        finally:
+        else:
             return True
 
     # PRINT BANNER
