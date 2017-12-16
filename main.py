@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 from sys import argv as args
-from colorama import init as color_init
-from src.wikirider import WikiRider
+from src.wikirider import WikiRider, RidePrinter
 # IMPORTS
-color_init()  # Initialize colors
-WikiRider.print_banner()  # Print the cool ASCII art
 
 if __name__ == "__main__":
+    printer = RidePrinter()
+    printer.print_banner()
     if len(args) != 3:
-        WikiRider.print_help()
+        printer.print_help()
     else:
         rider = WikiRider(args[1], args[2])
