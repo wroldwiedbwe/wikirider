@@ -19,32 +19,23 @@ class WikiRider(object):
     # CONSTRUCTOR
 
     def __init__(self, base_url, depth):
-        if WikiRider.valid_int(depth) and WikiRider.valid_url(base_url):
-            self.depth = int(depth)
-            self.depth_counter = 0
-            self.next_url = base_url
-            self.base_url = base_url.split('/wiki/')[0]
-            self.visited_urls = []
-            self.possible_urls = []
-            self.html_source = None
-            self.printer = RidePrinter()
-        else:
-            RidePrinter.print_invalid_input_error()
+        self.depth = depth
+        self.depth_counter = 0
+        self.next_url = base_url
+        self.base_url = base_url.split('/wiki/')[0]
+        self.visited_urls = []
+        self.possible_urls = []
+        self.html_source = None
 
     def run(self):
-        if self.depth_counter >= self.depth:
-            self.printer.print_end()
-            return
-        else:
+        if self.depth_counter < self.depth:
             self.visited_urls.append(self.next_url)
-
             self.scrape_html_source()
-
-            self.printer.print_rider_location(self)
-
+            yield self
             self.search_urls()
             self.set_destination()
-            self.run()
+            for rider_state in self.run():
+                yield self
 
     def scrape_html_source(self):
         # Scrapes html soup
@@ -75,17 +66,6 @@ class WikiRider(object):
             self.depth_counter += 1
             self.next_url = self.base_url + next_url_tail
 
-    # CHECK IF VALID INT
-    @staticmethod
-    def valid_int(num):
-        try:
-            int(num)
-        except ValueError:
-            return False
-        else:
-            return True
-
-    # CHECK URL
     @staticmethod
     def valid_url(url):
         if "Main_Page" in url:
