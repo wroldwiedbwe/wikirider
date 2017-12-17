@@ -91,6 +91,10 @@ bin/
 include/
 local/
 
+# virtualenv WINDOWS
+Scripts/
+tcl/
+
 # Spyder project settings
 .spyderproject
 .spyproject
