@@ -43,14 +43,14 @@ class WikiRider(object):
         """
         if self.depth_counter < self.depth:
             self.visited_urls.append(self.next_url)
-            self.scrape_html_source()
+            self._scrape_html_source()
             yield self
-            self.search_urls()
-            self.set_destination()
+            self._search_urls()
+            self._set_destination()
             for rider_state in self.run():
                 yield self
 
-    def scrape_html_source(self):
+    def _scrape_html_source(self):
         """Scrape html soup from next url"""
         try:
             self.html_source = Bs(req.get(self.next_url).content, 'lxml')
@@ -58,7 +58,7 @@ class WikiRider(object):
             self.printer.print_connection_error()
             return None
 
-    def search_urls(self):
+    def _search_urls(self):
         """Look for possible urls"""
         self.possible_urls = []
         for a in self.html_source.find_all('a', href=self.HREF_REGEX):
@@ -68,7 +68,7 @@ class WikiRider(object):
                     if a['href'] not in visited_url:
                         self.possible_urls.append(a['href'])
 
-    def set_destination(self):
+    def _set_destination(self):
         """Randomly choose next url to travel"""
         if not self.possible_urls:
             self.depth_counter = self.depth

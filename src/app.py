@@ -13,14 +13,14 @@ class TerminalApp:
 
     def start(self):
         self.printer.print_banner()
-        if self.should_start():
+        if self._should_start():
             rider = WikiRider(self.args[1], int(self.args[2]))
             self.printer.print_start()
             for rider_state in rider.run():
                 self.printer.print_rider_location(rider_state)
             self.printer.print_end()
 
-    def should_start(self):
+    def _should_start(self):
         if len(self.args) != 3:
             self.printer.print_help()
             return False
