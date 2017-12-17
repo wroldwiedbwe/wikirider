@@ -95,8 +95,7 @@ class RidePrinter:
         next_color = self.COLOR_MAP[self.curr_color_num]
         dash_counter = rider.depth_counter + 1 \
             if rider.depth_counter + 1 < 25 else 25
-        self.curr_color_num = self.curr_color_num + 1 \
-            if self.curr_color_num < len(self.COLOR_MAP) - 1 else 0
+        self.curr_color_num = (self.curr_color_num + 1) % len(self.COLOR_MAP)
         print(Style.BRIGHT + Fore.WHITE + ("-" * dash_counter)
               + page_title + " - " + next_color + rider.next_url
               + Style.RESET_ALL)
