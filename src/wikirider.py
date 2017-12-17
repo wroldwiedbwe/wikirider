@@ -9,25 +9,38 @@ from random import choice as rchoice
 
 
 class WikiRider(object):
-
-    # CONSTANTS
+    """Wikiruns maker"""
 
     WIKI_REGEX = re.compile(r"https://.*\.wikipedia\.org/wiki/.[^:#]{3,}$")
     WIKI_PAGE_REGEX = re.compile(r"^/wiki/.[^:#]+$")
     HREF_REGEX = re.compile(r"^/wiki/.*")
 
-    # CONSTRUCTOR
+    def __init__(self, starting_url, depth):
+        """WikiRider constructor
 
-    def __init__(self, base_url, depth):
+        Parameters
+        ----------
+        starting_url : str
+            Url to any wikipedia web article, starting point for the wikirun
+        depth : int
+            Quantity of webpages to visit
+        """
         self.depth = depth
         self.depth_counter = 0
-        self.next_url = base_url
-        self.base_url = base_url.split('/wiki/')[0]
+        self.next_url = starting_url
+        self.base_url = starting_url.split('/wiki/')[0]
         self.visited_urls = []
         self.possible_urls = []
         self.html_source = None
 
     def run(self):
+        """Do a run across wikipedia articles
+
+        Yields
+        ------
+        WikiRider
+            Yield this instance for each time it visits a new webpage
+        """
         if self.depth_counter < self.depth:
             self.visited_urls.append(self.next_url)
             self.scrape_html_source()
@@ -38,7 +51,7 @@ class WikiRider(object):
                 yield self
 
     def scrape_html_source(self):
-        # Scrapes html soup
+        """Scrape html soup from next url"""
         try:
             self.html_source = Bs(req.get(self.next_url).content, 'lxml')
         except req.RequestException:
@@ -46,7 +59,7 @@ class WikiRider(object):
             return None
 
     def search_urls(self):
-        # Looks for possible urls
+        """Look for possible urls"""
         self.possible_urls = []
         for a in self.html_source.find_all('a', href=self.HREF_REGEX):
             if (a.text and WikiRider.valid_url(a['href']) and a['href']
@@ -56,7 +69,7 @@ class WikiRider(object):
                         self.possible_urls.append(a['href'])
 
     def set_destination(self):
-        # Sets the next url to travel
+        """Randomly choose next url to travel"""
         if not self.possible_urls:
             self.depth_counter = self.depth
         else:
@@ -90,7 +103,7 @@ class RidePrinter:
         self.curr_color_num = 0
 
     def print_rider_location(self, rider):
-        # Prints current page
+        """Print the current webpage of some WikiRider instance"""
         page_title = rider.html_source.find('h1', id="firstHeading").text
         next_color = self.COLOR_MAP[self.curr_color_num]
         dash_counter = rider.depth_counter + 1 \

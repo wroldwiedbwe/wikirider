@@ -5,6 +5,7 @@ from src.wikirider import WikiRider, RidePrinter
 
 
 class TerminalApp:
+    """Terminal application controller"""
 
     def __init__(self):
         self.printer = RidePrinter()
