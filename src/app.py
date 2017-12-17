@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, absolute_import
 from sys import argv as args
-from src.wikirider import WikiRider, RidePrinter
+from src.wikirider import WikiRider
+from src.view import RidePrinter
 
 
 class TerminalApp:
