@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, absolute_import
-import re
+from re import compile as reCompile
 from random import choice as rchoice
 import requests as req
 from bs4 import BeautifulSoup as Bs
@@ -9,9 +9,9 @@ from bs4 import BeautifulSoup as Bs
 class WikiRider(object):
     """Wikiruns maker"""
 
-    WIKI_REGEX = re.compile(r"https://.*\.wikipedia\.org/wiki/.[^:#]{3,}$")
-    WIKI_PAGE_REGEX = re.compile(r"^/wiki/.[^:#]+$")
-    HREF_REGEX = re.compile(r"^/wiki/.*")
+    WIKI_REGEX = reCompile(r"https://.*\.wikipedia\.org/wiki/.[^:#]{3,}$")
+    WIKI_PAGE_REGEX = reCompile(r"^/wiki/.[^:#]+$")
+    HREF_REGEX = reCompile(r"^/wiki/.*")
 
     def __init__(self, starting_url, depth):
         """WikiRider constructor
@@ -62,10 +62,13 @@ class WikiRider(object):
         for a in self.html_source.find_all('a', href=self.HREF_REGEX):
             if (a.text and WikiRider.valid_url(a['href']) and a['href']
                     not in self.next_url):
+                valid = True
                 for visited_url in self.visited_urls:
-                    if a['href'] not in visited_url:
-                        self.possible_urls.append(a['href'])
-
+                    if a['href'] in visited_url:
+                        valid = False
+                        break
+                if valid:
+                    self.possible_urls.append(a['href'])
     def _set_destination(self):
         """Randomly choose next url to travel"""
         if not self.possible_urls:
@@ -83,5 +86,3 @@ class WikiRider(object):
             return False
         return (WikiRider.WIKI_REGEX.match(url) is not None or
                 WikiRider.WIKI_PAGE_REGEX.match(url) is not None)
-
-
