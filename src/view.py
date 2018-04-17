@@ -18,7 +18,7 @@ class RidePrinter:
 
     def print_rider_location(self, rider):
         """Print the current webpage of some WikiRider instance"""
-        page_title = rider.html_source.find('h1', id="section_0").text
+        page_title = rider.html_source.find('title').text.split(' -')[0]
         next_color = self.COLOR_MAP[self.curr_color_num]
         dash_counter = min(rider.depth_counter + 1, 25)
         self.curr_color_num = (self.curr_color_num + 1) % len(self.COLOR_MAP)
