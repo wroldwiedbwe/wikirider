@@ -1,25 +1,25 @@
 WikiRider
 
-Komut istemcisinden direkt bir Wikirun yapabilirsin (Linux veya MacOS kullandığını varsayıyorum).
+Komut istemcisinden direkt bir Wikirun yapabilirsin (Linux veya MacOS kullandigini varsayiyorum).
 
 Kurulum
-Debian kullandığım için, sadece Debian temelli sürümler için kurulum adımlarını yazdım.
+Debian kullandigim icin, sadece Debian temelli sÃ¼rÃ¼mler icin kurulum adimlarini yazdim.
 
 #Repoyu kopyala
 git clone git@github.com:sadboyzvone/wikirider.git
-#Sanal ortamı kur
+#Sanal ortami kur
 sudo pip install virtualenv
 #Bir adet sanal ortam yarat
 cd wikirider && virtualenv .
-#Sanal ortamı aktive et
+#Sanal ortami aktive et
 source bin/activate
-#Gerekli içeriği kur
+#Gerekli icerigi kur
 pip install -r requirements.txt
-#Çalıştır
+#Calistir
 python main.py
 
-SIKÇA SORULAN SORULAR
+SIKCA SORULAN SORULAR
 ==> Wikirun nedir?
 	https://www.urbandictionary.com/define.php?term=Wikirun
-==> Bu, XYZ OS üzerinde çalışır mı?
-	Eğer OS üzerinde python kuruluysa, büyük olasılıkla çalışacaktır.
+==> Bu, XYZ OS Ã¼zerinde calisir mÄ±?
+	Eger OS Ã¼zerinde python kuruluysa, bÃ¼yÃ¼k olasilikla calisacaktir.
