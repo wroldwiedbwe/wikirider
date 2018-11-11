@@ -7,4 +7,4 @@ python:
   - "pypy3"
 install:
   - pip install -r requirements.txt
-script: python main.py "https://en.wikipedia.org/wiki/Python_(programming_language)" 5
+script: ./wikirun.py "https://en.wikipedia.org/wiki/Python_(programming_language)" 5

@@ -8,16 +8,12 @@ Since I use Debian, I can only provide instructions for Debian-based distros.
 ```bash
 # Clone the repo
 git clone git@github.com:sadboyzvone/wikirider.git
-# Install virtualenv
-sudo pip install virtualenv
-# Create a virtualenv
-cd wikirider && virtualenv .
+# Run setup.sh
+cd wikirider && ./setup.sh
 # Activate virtualenv
-source bin/activate
-# Install requirements
-pip install -r requirements.txt
+source .env/bin/activate
 # Run
-python main.py
+./wikirun.py
 ```
 ## FAQ:
 * What is a Wikirun?
