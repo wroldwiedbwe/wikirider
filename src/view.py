@@ -36,12 +36,12 @@ class RidePrinter:
 
     def print_banner(self):
         print(Style.BRIGHT + Fore.WHITE)
-        print("        (_\\")
-        print("       / \\")
-        print("  `== / /\\=,_")
-        print("   ;--==\\\\  \\\\o")
-        print("   /____//__/__\\")
-        print(" @=`(0)     (0) ")
+        print("              (_\\")
+        print("             / \\")
+        print("        `== / /\\=,_")
+        print("   _-_-  ;--==\\\\  \\\\o")
+        print("_-_-__   /____//__/__\\")
+        print("   _-_-  `(0)     (0) ")
         print("\t-WikiRider" + Style.RESET_ALL)
 
     def print_help(self):
