@@ -6,7 +6,7 @@ Kurulum
 Debian kullandigim icin, sadece Debian temelli sürümler icin kurulum adimlarini yazdim.
 
 #Repoyu kopyala
-git clone git@github.com:sadboyzvone/wikirider.git
+git clone https://github.com/sadboyzvone/wikirider.git
 #Sanal ortami kur
 sudo pip install virtualenv
 #Bir adet sanal ortam yarat

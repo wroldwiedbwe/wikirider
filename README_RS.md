@@ -7,7 +7,7 @@ Odradite Wikirun direktno iz vašeg terminala ( podrazumevajući da koristite Li
 Budući da koristim Debian, mogu da pružim pomoć samo za sisteme bazirane na Debian-u.
 ```bash
 # Klonirajte repo
-git clone git@github.com:sadboyzvone/wikirider.git
+git clone https://github.com/sadboyzvone/wikirider.git
 # Pokrenite setup.sh
 cd wikirider && ./setup.sh
 # Aktivirajte virtualenv

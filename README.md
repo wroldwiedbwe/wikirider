@@ -7,7 +7,7 @@ Do a Wikirun directly from your terminal ( assuming you use Linux or Mac )!<br /
 Since I use Debian, I can only provide instructions for Debian-based distros.
 ```bash
 # Clone the repo
-git clone git@github.com:sadboyzvone/wikirider.git
+git clone https://github.com/sadboyzvone/wikirider.git
 # Run setup.sh
 cd wikirider && ./setup.sh
 # Activate virtualenv
