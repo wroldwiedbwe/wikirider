@@ -41,20 +41,24 @@ class WikiRider(object):
         """
         if self.depth_counter < self.depth:
             self.visited_urls.append(self.next_url)
-            self._scrape_html_source()
-            yield self
-            self._search_urls()
-            self._set_destination()
-            for rider_state in self.run():
-                yield self
+            if self._scrape_html_source() != False:
+            	yield self
+            	self._search_urls()
+            	self._set_destination()
+            	for rider_state in self.run():
+                	yield self
+
+    def print_connection_error(self):
+        print('Failed to connect to the Wiki (check your URL!)')
 
     def _scrape_html_source(self):
         """Scrape html soup from next url"""
         try:
             self.html_source = Bs(req.get(self.next_url).content, 'lxml')
+	    return True
         except req.RequestException:
-            self.printer.print_connection_error()
-            return None
+            self.print_connection_error()
+            return False
 
     def _search_urls(self):
         """Look for possible urls"""
