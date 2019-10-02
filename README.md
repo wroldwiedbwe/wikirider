@@ -1,10 +1,10 @@
 # WikiRider
 ##
-Do a Wikirun directly from your terminal ( assuming you use Linux or Mac )!<br />
+Do a Wikirun directly from your terminal!<br />
 [![Travis](https://img.shields.io/travis/sadboyzvone/wikirider.svg)](https://github.com/sadboyzvone/8080py)
 [![Known Vulnerabilities](https://snyk.io/test/github/sadboyzvone/wikirider/badge.svg)](https://snyk.io/test/github/sadboyzvone/wikirider)
 ## Install
-Since I use Debian, I can only provide instructions for Debian-based distros.
+instructions for Debian-based distros:
 ```bash
 # Clone the repo
 git clone https://github.com/sadboyzvone/wikirider.git
@@ -15,6 +15,19 @@ source .env/bin/activate
 # Run
 ./wikirun.py
 ```
+
+Instructions for Windows:
+```bash
+#clone the repo
+git clone https://github.com/sadboyzvone/wikirider.git
+# Run setup.bat
+cd wikirider && ./setup.bat
+#activate virtual env
+call .env/Scripts/activate.bat
+#run
+python wikirun.py
+```
+
 ## FAQ:
 * What is a Wikirun?
 	* [This](http://www.urbandictionary.com/define.php?term=Wikirun)
