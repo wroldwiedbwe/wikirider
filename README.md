@@ -21,7 +21,7 @@ Instructions for Windows:
 #clone the repo
 git clone https://github.com/sadboyzvone/wikirider.git
 # Run setup.bat
-cd wikirider && ./setup.bat
+cd wikirider && setup.bat
 #activate virtual env
 call .env/Scripts/activate.bat
 #run
