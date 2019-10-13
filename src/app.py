@@ -25,7 +25,8 @@ class TerminalApp:
         if len(self.args) != 3:
             self.printer.print_help()
             return False
-        if not WikiRider.valid_url(self.args[1]) or not valid_int(self.args[2]):
+        if not WikiRider.valid_url(self.args[1]) or not \
+                valid_int(self.args[2]):
             self.printer.print_invalid_input_error()
             return False
         return True

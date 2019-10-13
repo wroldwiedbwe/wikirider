@@ -1,6 +1,7 @@
 import colorama
 from colorama import Fore, Style, Back
 
+
 class RidePrinter:
 
     COLOR_MAP = {
