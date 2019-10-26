@@ -78,7 +78,10 @@ _-_-__   /____//__/__\
         self.text_output.setText("")
         url_to_ride = self.url_input.text()
         number_of_pages = self.int_input.text()
-        self.start(url_to_ride, number_of_pages)
+        if url_to_ride and number_of_pages:
+            self.start(url_to_ride, number_of_pages)
+        else:
+            self.text_output.setText("Please specify a valid wiki url and integer")
         self.url_input.setText("")
         self.int_input.setText("")
 
