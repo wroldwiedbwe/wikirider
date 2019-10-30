@@ -42,11 +42,11 @@ class WikiRider(object):
         if self.depth_counter < self.depth:
             self.visited_urls.append(self.next_url)
             if self._scrape_html_source() != False:
-            	yield self
-            	self._search_urls()
-            	self._set_destination()
-            	for rider_state in self.run():
-                	yield self
+                yield self
+                self._search_urls()
+                self._set_destination()
+                for rider_state in self.run():
+                    yield self
 
     def print_connection_error(self):
         print('Failed to connect to the Wiki (check your URL!)')
