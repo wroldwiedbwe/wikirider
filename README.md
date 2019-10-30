@@ -14,6 +14,8 @@ cd wikirider && ./setup.sh
 source .env/bin/activate
 # Run
 ./wikirun.py
+# Or run with GUI
+./wikirun_gui.py
 ```
 ## FAQ:
 * What is a Wikirun?
