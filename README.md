@@ -1,7 +1,6 @@
 # WikiRider
 ##
-Do a Wikirun directly from your terminal!<br />
-[![Travis](https://img.shields.io/travis/sadboyzvone/wikirider.svg)](https://github.com/sadboyzvone/8080py)
+[![Travis](https://img.shields.io/travis/sadboyzvone/wikirider.svg)](https://travis-ci.org/sadboyzvone/wikirider/)
 [![Known Vulnerabilities](https://snyk.io/test/github/sadboyzvone/wikirider/badge.svg)](https://snyk.io/test/github/sadboyzvone/wikirider)
 ## Install
 instructions for Debian-based distros:
@@ -14,6 +13,8 @@ cd wikirider && ./setup.sh
 source .env/bin/activate
 # Run
 ./wikirun.py
+# Or run with GUI
+./wikirun_gui.py
 ```
 
 Instructions for Windows:

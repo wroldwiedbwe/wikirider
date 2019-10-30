@@ -110,3 +110,6 @@ tcl/
 
 # idea
 .idea/
+
+# VS Code
+.vscode/
