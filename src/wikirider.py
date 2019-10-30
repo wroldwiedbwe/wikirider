@@ -15,7 +15,6 @@ class WikiRider(object):
 
     def __init__(self, starting_url, depth):
         """WikiRider constructor
-
         Parameters
         ----------
         starting_url : str
@@ -33,7 +32,6 @@ class WikiRider(object):
 
     def run(self):
         """Do a run across wikipedia articles
-
         Yields
         ------
         WikiRider
@@ -55,7 +53,7 @@ class WikiRider(object):
         """Scrape html soup from next url"""
         try:
             self.html_source = Bs(req.get(self.next_url).content, 'lxml')
-	    return True
+            return True
         except req.RequestException:
             self.print_connection_error()
             return False
