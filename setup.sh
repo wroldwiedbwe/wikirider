@@ -2,6 +2,7 @@
 
 echo -e "\e[1;32mInstalling wikirider...\e[0m"
 
+command -v pip >/dev/null 2>&1 || { echo >&2 "I require pip but it's not installed.  Aborting."; exit 1; }
 PYVER=$(python -V 2>&1 | grep -Po '(?<=Python )(\d)')
 CUR_DIR=$(pwd)
 PY="python"
