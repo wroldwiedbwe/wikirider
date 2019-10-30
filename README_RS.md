@@ -1,7 +1,7 @@
 # WikiRider
 ##
 Odradite Wikirun direktno iz vašeg terminala ( podrazumevajući da koristite Linux ili Mac )!<br />
-[![Travis](https://img.shields.io/travis/sadboyzvone/wikirider.svg)](https://github.com/sadboyzvone/8080py)
+[![Travis](https://img.shields.io/travis/sadboyzvone/wikirider.svg)](https://travis-ci.org/sadboyzvone/wikirider/)
 [![Poznate ranjivosti](https://snyk.io/test/github/sadboyzvone/wikirider/badge.svg)](https://snyk.io/test/github/sadboyzvone/wikirider)
 ## Instalacija
 Budući da koristim Debian, mogu da pružim pomoć samo za sisteme bazirane na Debian-u.
