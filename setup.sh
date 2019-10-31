@@ -29,7 +29,6 @@ export FULL_LOC="$INSTALL_LOC/wikirider"
 export OLD_LOC="$CUR_DIR"
 rm -rf "$FULL_LOC"
 mkdir -p "$FULL_LOC"
-cd "$FULL_LOC"
 
 echo -e "\e[1;32mInstall location is $FULL_LOC"
 
@@ -53,6 +52,9 @@ fi
 
 export PATH="$PATH:$VENVLOC/bin";
 
+cp -rf "$OLD_LOC" /tmp
+mv /tmp/wikirider $FULL_LOC
+
 if virtualenv .env -p $PY && source "$CUR_DIR/.env/bin/activate" && $PIP install -r "$OLD_LOC/requirements.txt"; then
     echo -e "\e[1;32mInstallation complete!"
     echo -e "To run wikirider, do \e[0;33m'cd $FULL_LOC; source .env/bin/activate && python wikirun.py'\e[1;32m!"
@@ -60,4 +62,3 @@ if virtualenv .env -p $PY && source "$CUR_DIR/.env/bin/activate" && $PIP install
 else
     echo -e "\e[1;31mSome errors occured! Look up to see what went wrong.\e[0m"
 fi
-cd "$CUR_DIR"
