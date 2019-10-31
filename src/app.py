@@ -11,26 +11,15 @@ class TerminalApp:
 
     def __init__(self):
         self.printer = RidePrinter()
-        self.pargs = self.parse_arguments()
+        self.args = TerminalApp.parse_arguments()
 
     def start(self):
         self.printer.print_banner()
-        if self._should_start():
-            rider = WikiRider(self.pargs.url, self.pargs.depth)
-            self.printer.print_start()
-            for rider_state in rider.run():
-                self.printer.print_rider_location(rider_state)
-            self.printer.print_end()
-
-    def _should_start(self):
-        if len(self.args) != 3:
-            self.printer.print_help()
-            return False
-        if not WikiRider.valid_url(self.args[1]) or not \
-                valid_int(self.args[2]):
-            self.printer.print_invalid_input_error()
-            return False
-        return True
+        rider = WikiRider(self.args.url, self.args.depth)
+        self.printer.print_start()
+        for rider_state in rider.run():
+            self.printer.print_rider_location(rider_state)
+        self.printer.print_end()
 
     @staticmethod
     def parse_arguments():
